@@ -25,9 +25,9 @@ public class ToastUtils {
 
     }
 
-    public static void show(Context c,CharSequence s) {
+    public static void show(Context c, CharSequence s) {
         if (toast == null) {
-            toast = Toast.makeText(c,s,Toast.LENGTH_SHORT);
+            toast = Toast.makeText(c, s, Toast.LENGTH_SHORT);
         }
         toast.setText(s);
         toast.show();

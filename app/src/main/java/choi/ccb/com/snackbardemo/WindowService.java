@@ -33,12 +33,12 @@ public class WindowService extends Service {
 
     private void initWindow() {
         WindowManager mWindow = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
-        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,500,0,0,
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 500, 0, 0,
                 PixelFormat.TRANSPARENT);
         layoutParams.gravity = Gravity.TOP;
-        layoutParams.flags =WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR; // 不获取焦点，以便于在弹出的时候 下层界面仍然可以进行操作
+        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR; // 不获取焦点，以便于在弹出的时候 下层界面仍然可以进行操作
         // 确保你的内容不会被装饰物(如状态栏)掩盖.
         layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG;
-        mWindow.addView(View.inflate(this,R.layout.item,null),layoutParams);
+        mWindow.addView(View.inflate(this, R.layout.item, null), layoutParams);
     }
 }

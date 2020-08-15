@@ -9,15 +9,15 @@ import android.view.View;
 
 import com.github.johnpersano.supertoasts.library.Style;
 import com.github.johnpersano.supertoasts.library.SuperActivityToast;
-import com.github.johnpersano.supertoasts.library.SuperToast;
 
 import choi.ccb.com.snackbardemo.R;
 
-public class ToastActivityutils {
+public class ToastActivityUtils {
     private static SuperActivityToast superActivityToast;
-    public static void show(Context context, String s){
+
+    public static void show(Context context, String s) {
         if (superActivityToast == null)
-        superActivityToast = SuperActivityToast.create(context, new Style(), Style.TYPE_BUTTON);
+            superActivityToast = SuperActivityToast.create(context, new Style(), Style.TYPE_BUTTON);
         superActivityToast.setButtonText(">")
                 .setButtonIconResource(R.drawable.ic_launcher_background)
                 .setOnButtonClickListener("good_tag_name", null, new SuperActivityToast.OnButtonClickListener() {

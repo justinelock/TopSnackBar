@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -15,6 +14,8 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import choi.ccb.com.snackbardemo.R;
 
@@ -41,11 +42,11 @@ public class TipView extends LinearLayout {
     private Handler mHandler = new Handler();
 
     public TipView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public TipView(Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs,0);
+        this(context, attrs, 0);
     }
 
     public TipView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -76,8 +77,8 @@ public class TipView extends LinearLayout {
         addView(mTvTip);
     }
 
-    public void show(String content){
-        if (TextUtils.isEmpty(content)){
+    public void show(String content) {
+        if (TextUtils.isEmpty(content)) {
             show();
             return;
         }
@@ -85,8 +86,8 @@ public class TipView extends LinearLayout {
         show();
     }
 
-    public void show(){
-        if (isShowing){
+    public void show() {
+        if (isShowing) {
             return;
         }
 
@@ -113,9 +114,9 @@ public class TipView extends LinearLayout {
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                       hide();
+                        hide();
                     }
-                },mStayTime);
+                }, mStayTime);
             }
 
             @Override
@@ -127,14 +128,16 @@ public class TipView extends LinearLayout {
             public void onAnimationRepeat(Animator animation) {
 
             }
-       });
+        });
     }
 
-    /**隐藏，收起*/
+    /**
+     * 隐藏，收起
+     */
     private void hide() {
         TranslateAnimation hideAnim = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF
-                ,0.0f, Animation.RELATIVE_TO_SELF,-1.0f);
+                , 0.0f, Animation.RELATIVE_TO_SELF, -1.0f);
 
         hideAnim.setDuration(300);
         startAnimation(hideAnim);
@@ -164,7 +167,7 @@ public class TipView extends LinearLayout {
      * @param spValue
      * @return
      */
-    public static int sp2px(Context context,float spValue) {
+    public static int sp2px(Context context, float spValue) {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
     }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="choi.ccb.com.snackbardemo"
-    xmlns:tools="http://schemas.android.com/tools">
-    <uses-sdk android:minSdkVersion="19"
-        tools:overrideLibrary="com.kongzue.dialog"/>
+    xmlns:tools="http://schemas.android.com/tools"
+    package="choi.ccb.com.snackbardemo">
+
+    <uses-sdk tools:overrideLibrary="com.kongzue.dialog" />
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
@@ -15,14 +15,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            tools:ignore="Instantiatable">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".A1" />
+        <activity
+            android:name=".A1"
+            tools:ignore="Instantiatable" />
 
         <service
             android:name=".WindowService"

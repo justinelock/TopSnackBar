@@ -43,7 +43,6 @@ public class TopWindowUtils {
             }
         });
 
-
         handler.removeMessages(1);
         handler.sendEmptyMessageDelayed(1, 5000);
     }

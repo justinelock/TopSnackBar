@@ -1,31 +1,7 @@
-/*
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package choi.ccb.com.topsnackbarlibrary;
-
-import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RestrictTo;
-import android.support.annotation.StringRes;
-import android.support.design.widget.CoordinatorLayout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -34,6 +10,17 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RestrictTo;
+import androidx.annotation.StringRes;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
 /**
  * Snackbars provide lightweight feedback about an operation. They show a brief message at the
@@ -76,22 +63,32 @@ public final class TopSnackbar extends BaseTransientBottomBar<TopSnackbar> {
 
     /**
      * Callback class for {@link TopSnackbar} instances.
-     *
+     * <p>
      * Note: this class is here to provide backwards-compatible way for apps written before
      * the existence of the base {@link BaseTransientBottomBar} class.
      *
      * @see BaseTransientBottomBar#addCallback(BaseCallback)
      */
     public static class Callback extends BaseCallback<TopSnackbar> {
-        /** Indicates that the Snackbar was dismissed via a swipe.*/
+        /**
+         * Indicates that the Snackbar was dismissed via a swipe.
+         */
         public static final int DISMISS_EVENT_SWIPE = BaseCallback.DISMISS_EVENT_SWIPE;
-        /** Indicates that the Snackbar was dismissed via an action click.*/
+        /**
+         * Indicates that the Snackbar was dismissed via an action click.
+         */
         public static final int DISMISS_EVENT_ACTION = BaseCallback.DISMISS_EVENT_ACTION;
-        /** Indicates that the Snackbar was dismissed via a timeout.*/
+        /**
+         * Indicates that the Snackbar was dismissed via a timeout.
+         */
         public static final int DISMISS_EVENT_TIMEOUT = BaseCallback.DISMISS_EVENT_TIMEOUT;
-        /** Indicates that the Snackbar was dismissed via a call to {@link #dismiss()}.*/
+        /**
+         * Indicates that the Snackbar was dismissed via a call to {@link #dismiss()}.
+         */
         public static final int DISMISS_EVENT_MANUAL = BaseCallback.DISMISS_EVENT_MANUAL;
-        /** Indicates that the Snackbar was dismissed from a new Snackbar being shown.*/
+        /**
+         * Indicates that the Snackbar was dismissed from a new Snackbar being shown.
+         */
         public static final int DISMISS_EVENT_CONSECUTIVE = BaseCallback.DISMISS_EVENT_CONSECUTIVE;
 
         @Override
@@ -105,7 +102,8 @@ public final class TopSnackbar extends BaseTransientBottomBar<TopSnackbar> {
         }
     }
 
-    @Nullable private BaseCallback<TopSnackbar> mCallback;
+    @Nullable
+    private BaseCallback<TopSnackbar> mCallback;
 
     private TopSnackbar(ViewGroup parent, View content, ContentViewCallback contentViewCallback) {
         super(parent, content, contentViewCallback);
@@ -291,10 +289,10 @@ public final class TopSnackbar extends BaseTransientBottomBar<TopSnackbar> {
      * {@link #removeCallback(BaseCallback)} to remove a registered callback.
      *
      * @param callback Callback to notify when transient bottom bar events occur.
-     * @deprecated Use {@link #addCallback(BaseCallback)}
      * @see Callback
      * @see #addCallback(BaseCallback)
      * @see #removeCallback(BaseCallback)
+     * @deprecated Use {@link #addCallback(BaseCallback)}
      */
     @Deprecated
     @NonNull
@@ -314,9 +312,7 @@ public final class TopSnackbar extends BaseTransientBottomBar<TopSnackbar> {
     }
 
     /**
-     * @hide
-     *
-     * Note: this class is here to provide backwards-compatible way for apps written before
+     * @hide Note: this class is here to provide backwards-compatible way for apps written before
      * the existence of the base {@link BaseTransientBottomBar} class.
      */
     @RestrictTo(LIBRARY_GROUP)

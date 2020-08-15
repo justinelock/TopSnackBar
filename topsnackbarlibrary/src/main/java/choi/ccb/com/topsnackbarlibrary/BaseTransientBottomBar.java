@@ -1,22 +1,6 @@
-/*
- * Copyright (C) 2015 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package choi.ccb.com.topsnackbarlibrary;
 
-import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
+import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 import static choi.ccb.com.topsnackbarlibrary.AnimationUtils.FAST_OUT_SLOW_IN_INTERPOLATOR;
 
 import android.animation.Animator;
@@ -28,14 +12,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.IntDef;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.annotation.RestrictTo;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.SwipeDismissBehavior;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.WindowInsetsCompat;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -47,6 +23,17 @@ import android.view.accessibility.AccessibilityManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.RestrictTo;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.behavior.SwipeDismissBehavior;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -67,34 +54,46 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
      * @see BaseTransientBottomBar#addCallback(BaseCallback)
      */
     public abstract static class BaseCallback<B> {
-        /** Indicates that the Snackbar was dismissed via a swipe.*/
+        /**
+         * Indicates that the Snackbar was dismissed via a swipe.
+         */
         public static final int DISMISS_EVENT_SWIPE = 0;
-        /** Indicates that the Snackbar was dismissed via an action click.*/
+        /**
+         * Indicates that the Snackbar was dismissed via an action click.
+         */
         public static final int DISMISS_EVENT_ACTION = 1;
-        /** Indicates that the Snackbar was dismissed via a timeout.*/
+        /**
+         * Indicates that the Snackbar was dismissed via a timeout.
+         */
         public static final int DISMISS_EVENT_TIMEOUT = 2;
-        /** Indicates that the Snackbar was dismissed via a call to {@link #dismiss()}.*/
+        /**
+         * Indicates that the Snackbar was dismissed via a call to {@link #dismiss()}.
+         */
         public static final int DISMISS_EVENT_MANUAL = 3;
-        /** Indicates that the Snackbar was dismissed from a new Snackbar being shown.*/
+        /**
+         * Indicates that the Snackbar was dismissed from a new Snackbar being shown.
+         */
         public static final int DISMISS_EVENT_CONSECUTIVE = 4;
 
-        /** @hide */
+        /**
+         * @hide
+         */
         @RestrictTo(LIBRARY_GROUP)
         @IntDef({DISMISS_EVENT_SWIPE, DISMISS_EVENT_ACTION, DISMISS_EVENT_TIMEOUT,
                 DISMISS_EVENT_MANUAL, DISMISS_EVENT_CONSECUTIVE})
         @Retention(RetentionPolicy.SOURCE)
-        public @interface DismissEvent {}
+        public @interface DismissEvent {
+        }
 
         /**
          * Called when the given {@link BaseTransientBottomBar} has been dismissed, either
          * through a time-out, having been manually dismissed, or an action being clicked.
          *
          * @param transientBottomBar The transient bottom bar which has been dismissed.
-         * @param event The event which caused the dismissal. One of either:
-         *              {@link #DISMISS_EVENT_SWIPE}, {@link #DISMISS_EVENT_ACTION},
-         *              {@link #DISMISS_EVENT_TIMEOUT}, {@link #DISMISS_EVENT_MANUAL} or
-         *              {@link #DISMISS_EVENT_CONSECUTIVE}.
-         *
+         * @param event              The event which caused the dismissal. One of either:
+         *                           {@link #DISMISS_EVENT_SWIPE}, {@link #DISMISS_EVENT_ACTION},
+         *                           {@link #DISMISS_EVENT_TIMEOUT}, {@link #DISMISS_EVENT_MANUAL} or
+         *                           {@link #DISMISS_EVENT_CONSECUTIVE}.
          * @see BaseTransientBottomBar#dismiss()
          */
         public void onDismissed(B transientBottomBar, @DismissEvent int event) {
@@ -119,7 +118,7 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
         /**
          * Animates the content of the transient bottom bar in.
          *
-         * @param delay Animation delay.
+         * @param delay    Animation delay.
          * @param duration Animation duration.
          */
         void animateContentIn(int delay, int duration);
@@ -127,7 +126,7 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
         /**
          * Animates the content of the transient bottom bar out.
          *
-         * @param delay Animation delay.
+         * @param delay    Animation delay.
          * @param duration Animation duration.
          */
         void animateContentOut(int delay, int duration);
@@ -140,7 +139,8 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
     @IntDef({LENGTH_INDEFINITE, LENGTH_SHORT, LENGTH_LONG})
     @IntRange(from = 1)
     @Retention(RetentionPolicy.SOURCE)
-    public @interface Duration {}
+    public @interface Duration {
+    }
 
     /**
      * Show the Snackbar indefinitely. This means that the Snackbar will be displayed from the time
@@ -218,18 +218,19 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
     @RestrictTo(LIBRARY_GROUP)
     interface OnAttachStateChangeListener {
         void onViewAttachedToWindow(View v);
+
         void onViewDetachedFromWindow(View v);
     }
 
     /**
      * Constructor for the transient bottom bar.
      *
-     * @param parent The parent for this transient bottom bar.
-     * @param content The content view for this transient bottom bar.
+     * @param parent              The parent for this transient bottom bar.
+     * @param content             The content view for this transient bottom bar.
      * @param contentViewCallback The content view callback for this transient bottom bar.
      */
     protected BaseTransientBottomBar(@NonNull ViewGroup parent, @NonNull View content,
-            @NonNull ContentViewCallback contentViewCallback) {
+                                     @NonNull ContentViewCallback contentViewCallback) {
         if (parent == null) {
             throw new IllegalArgumentException("Transient bottom bar must have non-null parent");
         }
@@ -262,10 +263,10 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
         // Make sure that we fit system windows and have a listener to apply any insets
         ViewCompat.setFitsSystemWindows(mView, true);
         ViewCompat.setOnApplyWindowInsetsListener(mView,
-                new android.support.v4.view.OnApplyWindowInsetsListener() {
+                new OnApplyWindowInsetsListener() {
                     @Override
                     public WindowInsetsCompat onApplyWindowInsets(View v,
-                            WindowInsetsCompat insets) {
+                                                                  WindowInsetsCompat insets) {
                         // Copy over the bottom inset as padding so that we're displayed
                         // above the navigation bar
                         v.setPadding(v.getPaddingLeft(), v.getPaddingTop(),
@@ -447,25 +448,26 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
 
         mView.setOnAttachStateChangeListener(
                 new BaseTransientBottomBar.OnAttachStateChangeListener() {
-                @Override
-                public void onViewAttachedToWindow(View v) {}
-
-                @Override
-                public void onViewDetachedFromWindow(View v) {
-                    if (isShownOrQueued()) {
-                        // If we haven't already been dismissed then this event is coming from a
-                        // non-user initiated action. Hence we need to make sure that we callback
-                        // and keep our state up to date. We need to post the call since
-                        // removeView() will call through to onDetachedFromWindow and thus overflow.
-                        sHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                onViewHidden(BaseCallback.DISMISS_EVENT_MANUAL);
-                            }
-                        });
+                    @Override
+                    public void onViewAttachedToWindow(View v) {
                     }
-                }
-            });
+
+                    @Override
+                    public void onViewDetachedFromWindow(View v) {
+                        if (isShownOrQueued()) {
+                            // If we haven't already been dismissed then this event is coming from a
+                            // non-user initiated action. Hence we need to make sure that we callback
+                            // and keep our state up to date. We need to post the call since
+                            // removeView() will call through to onDetachedFromWindow and thus overflow.
+                            sHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    onViewHidden(BaseCallback.DISMISS_EVENT_MANUAL);
+                                }
+                            });
+                        }
+                    }
+                });
 
         if (ViewCompat.isLaidOut(mView)) {
             if (shouldAnimate()) {
@@ -547,10 +549,12 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
                 }
 
                 @Override
-                public void onAnimationStart(Animation animation) {}
+                public void onAnimationStart(Animation animation) {
+                }
 
                 @Override
-                public void onAnimationRepeat(Animation animation) {}
+                public void onAnimationRepeat(Animation animation) {
+                }
             });
             mView.startAnimation(anim);
         }
@@ -602,10 +606,12 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
                 }
 
                 @Override
-                public void onAnimationStart(Animation animation) {}
+                public void onAnimationStart(Animation animation) {
+                }
 
                 @Override
-                public void onAnimationRepeat(Animation animation) {}
+                public void onAnimationRepeat(Animation animation) {
+                }
             });
             mView.startAnimation(anim);
         }
@@ -734,7 +740,7 @@ public abstract class BaseTransientBottomBar<B extends BaseTransientBottomBar<B>
 
         @Override
         public boolean onInterceptTouchEvent(CoordinatorLayout parent, SnackbarBaseLayout child,
-                MotionEvent event) {
+                                             MotionEvent event) {
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     // We want to make sure that we disable any Snackbar timeouts if the user is
